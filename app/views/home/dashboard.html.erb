@@ -1,38 +1,50 @@
 <div class="max-w-4xl mx-auto">
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-    <div class="bg-indigo-600 px-6 py-4">
-      <h2 class="text-2xl font-bold text-white">Welcome, <%= @user.email %>!</h2>
-    </div>
-    
-    <div class="p-6">
-      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
-        <p class="text-blue-700"><strong>Quiz features coming soon!</strong> Check back later to start taking quizzes.</p>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title text-2xl">Welcome back, <%= @user.email %>! 👋</h2>
+      
+      <div class="alert alert-info shadow-lg mt-4">
+        <span>📢 <strong>Ready to test your knowledge?</strong> 
+          <%#= link_to "Browse available quizzes", quizzes_path, class: "link link-primary" %>
+          <%= link_to "Browse available quizzes", root_path, class: "link link-primary" %>
+        </span>
       </div>
       
-      <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div class="bg-gray-50 rounded-lg p-6 text-center">
-          <div class="text-4xl font-bold text-indigo-600"><%= @total_quizzes_taken %></div>
-          <div class="text-gray-600 mt-2">Quizzes Taken</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+        <div class="stats shadow">
+          <div class="stat place-items-center">
+            <div class="stat-title">Quizzes Taken</div>
+            <div class="stat-value text-primary"><%= @total_quizzes_taken %></div>
+            <div class="stat-actions">
+              <%#= link_to "Take a Quiz", quizzes_path, class: "btn btn-primary btn-sm" %>
+              <%= link_to "Take a Quiz", root_path, class: "btn btn-primary btn-sm" %>
+            </div>
+          </div>
         </div>
-        <div class="bg-gray-50 rounded-lg p-6 text-center">
-          <div class="text-4xl font-bold text-indigo-600"><%= @average_score %>%</div>
-          <div class="text-gray-600 mt-2">Average Score</div>
+        
+        <div class="stats shadow">
+          <div class="stat place-items-center">
+            <div class="stat-title">Average Score</div>
+            <div class="stat-value text-secondary"><%= @average_score %>%</div>
+            <div class="stat-actions">
+              <span class="text-sm text-gray-500">Keep learning!</span>
+            </div>
+          </div>
         </div>
       </div>
       
-      <div class="border-t pt-6">
-        <h3 class="text-lg font-semibold mb-4">Quick Stats</h3>
-        <div class="space-y-3">
-          <div class="flex justify-between items-center py-2 border-b">
-            <span class="text-gray-600">Member since</span>
-            <span class="font-semibold"><%= @user.created_at.strftime("%B %d, %Y") %></span>
-          </div>
-          <div class="flex justify-between items-center py-2 border-b">
-            <span class="text-gray-600">Account type</span>
-            <span class="px-3 py-1 rounded-full text-sm font-semibold <%= admin? ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800' %>">
-              <%= admin? ? 'Administrator' : 'Regular User' %>
-            </span>
-          </div>
+      <div class="divider">Quick Stats</div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
+          <span class="font-medium">Member since</span>
+          <span class="badge badge-primary badge-lg"><%= @user.created_at.strftime("%B %d, %Y") %></span>
+        </div>
+        <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
+          <span class="font-medium">Account type</span>
+          <span class="badge <%= admin? ? 'badge-warning' : 'badge-ghost' %> badge-lg">
+            <%= admin? ? '👑 Administrator' : '📝 Regular User' %>
+          </span>
         </div>
       </div>
     </div>

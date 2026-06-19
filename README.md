@@ -154,3 +154,9 @@ This Quiz App allows regular users to take published quizzes and track their per
 ---
 
 **Built with ❤️ using Ruby on Rails and PostgreSQL**
+
+### notes
+- for logout or delete method with link_to, please use this code
+  <%= link_to "Logout", logout_path, 
+      data: { turbo_method: :delete },
+      class: "your css code" %>
