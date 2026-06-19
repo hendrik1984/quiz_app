@@ -1,0 +1,53 @@
+<div class="max-w-6xl mx-auto">
+  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+    <h1 class="text-3xl font-bold">Available Quizzes</h1>
+
+    <% if @categories.any? %>
+      <div class="flex flex-wrap gap-2">
+        <%= link_to "All", quizzes_path, class: "btn btn-sm #{params[:category].blank? ? 'btn-primary' : 'btn-ghost'}" %>
+        <% @categories.each do |category| %>
+          <%= link_to category, quizzes_path(category: category), class: "btn btn-sm #{params[:category] == category ? 'btn-primary' : 'btn-ghost'}" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @quizzes.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @quizzes.each do |quiz| %>
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+          <div class="card-body">
+            <h3 class="card-title">
+              <%= link_to quiz.title, quiz_path(quiz), class: "hover:text-primary" %>
+            </h3>
+            <p class="text-gray-500 line-clamp-2"><%= quiz.description || "No description provided." %></p>
+
+            <div class="flex flex-wrap items-center justify-between text-sm text-gray-500 mt-2">
+              <div class="flex gap-4">
+                <span>📝 <%= quiz.question_count %> questions</span>
+                <span>⭐ <%= quiz.total_points %> points</span>
+              </div>
+              <% if quiz.category.present? %>
+                <span class="badge badge-ghost"><%= quiz.category %></span>
+              <% end %>
+            </div>
+
+            <div class="card-actions justify-end mt-4">
+              <%= link_to "Take Quiz", quiz_path(quiz), class: "btn btn-primary w-full" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-8 flex justify-center">
+      <%= paginate @quizzes %>
+    </div>
+  <% else %>
+    <div class="card bg-base-100 shadow-xl p-12 text-center">
+      <div class="card-body">
+        <p class="text-gray-500 text-lg">No quizzes available yet. Check back later!</p>
+      </div>
+    </div>
+  <% end %>
+</div>

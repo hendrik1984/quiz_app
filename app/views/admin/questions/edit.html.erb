@@ -1,0 +1,63 @@
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6">Edit Question</h1>
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <%= form_with model: [:admin, @quiz, @question], local: true, class: "space-y-4" do |f| %>
+        <% if @question.errors.any? %>
+          <div class="alert alert-error shadow-lg">
+            <span>
+              <strong><%= pluralize(@question.errors.count, "error") %></strong> prohibited this question from being saved:
+              <ul class="list-disc list-inside mt-2">
+                <% @question.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </span>
+          </div>
+        <% end %>
+
+        <div class="form-control">
+          <%= f.label :text, "Question Text", class: "label" do %>
+            <span class="label-text">Question Text</span>
+          <% end %>
+          <%= f.text_area :text, rows: 3, class: "textarea textarea-bordered w-full", required: true %>
+        </div>
+
+        <div class="form-control">
+          <%= f.label :points, class: "label" do %>
+            <span class="label-text">Points</span>
+          <% end %>
+          <%= f.number_field :points, min: 1, max: 100, class: "input input-bordered w-32" %>
+        </div>
+
+        <div class="divider">Options</div>
+
+        <div class="space-y-3">
+          <%= f.fields_for :options do |option_form| %>
+            <div class="card bg-base-200 shadow-sm">
+              <div class="card-body">
+                <div class="form-control">
+                  <%= option_form.label :text, "Option Text", class: "label" do %>
+                    <span class="label-text">Option Text</span>
+                  <% end %>
+                  <%= option_form.text_field :text, class: "input input-bordered w-full" %>
+                </div>
+                <label class="label cursor-pointer justify-start gap-4">
+                  <%= option_form.check_box :is_correct, class: "checkbox checkbox-primary" %>
+                  <span class="label-text">Correct answer</span>
+                </label>
+                <%= option_form.hidden_field :_destroy if option_form.object.persisted? %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="flex justify-end gap-4 mt-6">
+          <%= link_to "Cancel", edit_admin_quiz_path(@quiz), class: "btn btn-ghost" %>
+          <%= f.submit "Update Question", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

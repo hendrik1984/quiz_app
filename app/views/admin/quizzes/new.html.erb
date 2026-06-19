@@ -1,0 +1,55 @@
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6">Create New Quiz</h1>
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <%= form_with model: [:admin, @quiz], local: true, class: "space-y-4" do |f| %>
+        <% if @quiz.errors.any? %>
+          <div class="alert alert-error shadow-lg">
+            <span>
+              <strong><%= pluralize(@quiz.errors.count, "error") %></strong> prohibited this quiz from being saved:
+              <ul class="list-disc list-inside mt-2">
+                <% @quiz.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </span>
+          </div>
+        <% end %>
+
+        <div class="form-control">
+          <%= f.label :title, class: "label" do %>
+            <span class="label-text">Title</span>
+          <% end %>
+          <%= f.text_field :title, class: "input input-bordered w-full", required: true %>
+        </div>
+
+        <div class="form-control">
+          <%= f.label :description, class: "label" do %>
+            <span class="label-text">Description</span>
+          <% end %>
+          <%= f.text_area :description, rows: 4, class: "textarea textarea-bordered w-full" %>
+        </div>
+
+        <div class="form-control">
+          <%= f.label :category, class: "label" do %>
+            <span class="label-text">Category</span>
+          <% end %>
+          <%= f.text_field :category, class: "input input-bordered w-full", placeholder: "e.g., Science, History, Technology" %>
+        </div>
+
+        <div class="form-control">
+          <label class="label cursor-pointer justify-start gap-4">
+            <%= f.check_box :is_published, class: "checkbox checkbox-primary" %>
+            <span class="label-text">Publish immediately (visible to users)</span>
+          </label>
+        </div>
+
+        <div class="flex justify-end gap-4 mt-6">
+          <%= link_to "Cancel", admin_quizzes_path, class: "btn btn-ghost" %>
+          <%= f.submit "Create Quiz", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

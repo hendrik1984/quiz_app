@@ -1,0 +1,100 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6">Edit Quiz: <%= @quiz.title %></h1>
+
+  <div class="card bg-base-100 shadow-xl mb-6">
+    <div class="card-body">
+      <%= form_with model: [:admin, @quiz], local: true, class: "space-y-4" do |f| %>
+        <% if @quiz.errors.any? %>
+          <div class="alert alert-error shadow-lg">
+            <span>
+              <strong><%= pluralize(@quiz.errors.count, "error") %></strong> prohibited this quiz from being saved:
+              <ul class="list-disc list-inside mt-2">
+                <% @quiz.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </span>
+          </div>
+        <% end %>
+
+        <div class="form-control">
+          <%= f.label :title, class: "label" do %>
+            <span class="label-text">Title</span>
+          <% end %>
+          <%= f.text_field :title, class: "input input-bordered w-full", required: true %>
+        </div>
+
+        <div class="form-control">
+          <%= f.label :description, class: "label" do %>
+            <span class="label-text">Description</span>
+          <% end %>
+          <%= f.text_area :description, rows: 4, class: "textarea textarea-bordered w-full" %>
+        </div>
+
+        <div class="form-control">
+          <%= f.label :category, class: "label" do %>
+            <span class="label-text">Category</span>
+          <% end %>
+          <%= f.text_field :category, class: "input input-bordered w-full" %>
+        </div>
+
+        <div class="form-control">
+          <label class="label cursor-pointer justify-start gap-4">
+            <%= f.check_box :is_published, class: "checkbox checkbox-primary" %>
+            <span class="label-text">Publish (visible to users)</span>
+          </label>
+        </div>
+
+        <div class="flex justify-end gap-4 mt-6">
+          <%= link_to "Cancel", admin_quizzes_path, class: "btn btn-ghost" %>
+          <%= f.submit "Update Quiz", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="card-title">Questions</h2>
+        <%= link_to "Add Question", new_admin_quiz_question_path(@quiz), class: "btn btn-success" %>
+      </div>
+
+      <% if @quiz.questions.any? %>
+        <div class="space-y-4">
+          <% @quiz.questions.order(:order_index).each_with_index do |question, index| %>
+            <div class="card bg-base-200 shadow">
+              <div class="card-body">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-semibold">Question <%= index + 1 %>: <%= question.text %></h3>
+                    <p class="text-sm text-gray-500 mt-1">Points: <%= question.points %></p>
+                    <div class="mt-2">
+                      <p class="text-sm font-medium">Options:</p>
+                      <ul class="list-disc list-inside text-sm text-gray-600">
+                        <% question.options.each do |option| %>
+                          <li class="<%= 'text-success font-semibold' if option.is_correct %>">
+                            <%= option.text %> <%= '✓' if option.is_correct %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="flex gap-2">
+                    <%= link_to "Edit", edit_admin_quiz_question_path(@quiz, question), class: "btn btn-sm btn-ghost" %>
+                    <%= link_to "Delete", admin_quiz_question_path(@quiz, question), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-error" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8">
+          <p class="text-gray-500">No questions added yet.</p>
+          <%= link_to "Add Your First Question", new_admin_quiz_question_path(@quiz), class: "btn btn-success mt-2" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

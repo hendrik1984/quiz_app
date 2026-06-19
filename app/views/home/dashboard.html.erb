@@ -2,26 +2,24 @@
   <div class="card bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="card-title text-2xl">Welcome back, <%= @user.email %>! 👋</h2>
-      
+
       <div class="alert alert-info shadow-lg mt-4">
-        <span>📢 <strong>Ready to test your knowledge?</strong> 
-          <%#= link_to "Browse available quizzes", quizzes_path, class: "link link-primary" %>
-          <%= link_to "Browse available quizzes", root_path, class: "link link-primary" %>
+        <span>📢 <strong>Ready to test your knowledge?</strong>
+          <%= link_to "Browse available quizzes", quizzes_path, class: "link link-primary" %>
         </span>
       </div>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
         <div class="stats shadow">
           <div class="stat place-items-center">
             <div class="stat-title">Quizzes Taken</div>
             <div class="stat-value text-primary"><%= @total_quizzes_taken %></div>
             <div class="stat-actions">
-              <%#= link_to "Take a Quiz", quizzes_path, class: "btn btn-primary btn-sm" %>
-              <%= link_to "Take a Quiz", root_path, class: "btn btn-primary btn-sm" %>
+              <%= link_to "Take a Quiz", quizzes_path, class: "btn btn-primary btn-sm" %>
             </div>
           </div>
         </div>
-        
+
         <div class="stats shadow">
           <div class="stat place-items-center">
             <div class="stat-title">Average Score</div>
@@ -32,9 +30,9 @@
           </div>
         </div>
       </div>
-      
+
       <div class="divider">Quick Stats</div>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
           <span class="font-medium">Member since</span>
